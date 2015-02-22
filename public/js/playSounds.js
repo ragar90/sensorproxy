@@ -68,25 +68,23 @@ $('#stream-info').hide();
 
 $('.listen-button').on('click', function(e) {
   e.preventDefault();
-  var ip = $('.listen-ip').val() || '10.65.19.166';
-  console.log('ip is ' + ip);
+  var ip = $('.listen-ip').val() || '10.65.20.53';
+  console.log('ip is ' + ip)
+
+  var shouldStart = true;;
 
   var notes = io.connect('http://'+ip+':8080/notes');
   notes.on('connect', function () {
     console.log('connected to socket');
     $('.connected-status').text('Connected').addClass('connected');
     $('#stream-info').show();
-    inv.start()
   });
 
-  notes.on('tempo', function (tempo) {
-    var value = tempo.value;
-    $('#tempo').text(value.toFixed(1));
-    inv.set({interval: value})
-    console.log(tempo);
+  notes.on('toggleComposition', function (value) {
+    if (shouldStart == true) {
+      inv.start();
+    } else {
+      inv.stop();
+    }
   });
-});
-
-notes.on('sensorData', function (tempo) {
-  console.log(tempo);
 });

@@ -35,9 +35,10 @@ module.exports = {
     if (my.compositionButton != undefined) {
       my.compositionButton.on('push', function() {
         console.log("adding composition")
+        var compName = guid.new(16) // composition name
         // post new composition
         var composition = {
-          "name": guid.new(16),
+          "name": compName,
           "tempo": 80,
           "created_by": 1,
           "created_at": (new Date()).getTime()
@@ -48,7 +49,25 @@ module.exports = {
             return console.log("couldn't post new composition: " + JSON.stringify(err))
           }
           console.log(JSON.stringify(data))
-          //also write it to LED
+          
+          // outputs to LCD
+          var Cylon = require('cylon');
+
+          function writeToScreen(screen, message) {
+            screen.setCursor(0,0);
+            screen.write(message);
+          }
+
+          Cylon
+            .robot({ name: 'LCD'})
+            .connection('edison', { adaptor: 'intel-iot' })
+            .device('screen', { driver: 'upm-jhd1313m1', connection: 'edison' })
+            .on('ready', function(my) {
+              console.log("lcd display goes here")
+              writeToScreen(my.screen, "Playing " + compName);
+            })
+            .start();
+          
         })
       })
     }

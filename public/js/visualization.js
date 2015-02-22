@@ -32,7 +32,16 @@ var canvasCtx = canvas.getContext('2d');
 oscillator.type = 0; // sine wave
 oscillator.frequency.value = initialFreq; // value in hertz
 
-// oscillator.start();
+var oscHasStarted = false;
+$('canvas').on('click', function(){
+  if(!oscHasStarted) {
+    oscillator.start();
+    oscHasStarted = true;
+  } else {
+    oscillator.stop();
+  }
+
+});
 
 gainNode.gain.value = initialVol;
 

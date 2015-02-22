@@ -28,6 +28,7 @@ var getDevices = function() {
 var bootstrapped = false;
 var runApp = function(my, socket) {
   if (!bootstrapped) {
+    console.log("registering composition handler")
     buttonComponent.registerCompositionHandler(my)
     bootstrapped = true;
   }
@@ -45,6 +46,8 @@ Cylon.robot({
   },
   devices: getDevices()
 }).on('ready',function(my) {
+  console.log("ready...")
+  
   io
     .of('/notes')
     .on('connection', function (socket) {

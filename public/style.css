@@ -59,16 +59,19 @@ a:active{
 .signin{
   display: inline-block;
   float:right;
-
+  padding: 10px;
+  background-color: #f8f8f8;
+  border: 2px solid #e4e4e4;
 }
 
 .signin img{
   content: url("images/profile.png");
   width:56px;
-  padding-right: 10px;
 
 }
-
+.signin #username {
+  display: block;
+}
 /*
 .header{
     background: url(images/intelcopy.jpg) no-repeat center;
